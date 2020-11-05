@@ -61,13 +61,16 @@ class DioClient {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress
       );
-      if (response == null || response.statusCode < 200 || response.statusCode > 400) {
-        throw NetworkException(
-            message: "Error fetching data from server", statusCode: response.statusCode);
-      }
       return response.data;
     } catch (e) {
-      print(e);
+      print("error get: $e");
+      if (e is DioError) {
+        if (e.response.statusCode == 404) {
+          throw NetworkException(statusCode: 404, message: "Http status error [404]");
+        }
+      } else {
+        throw e;
+      }
     }
   }
 }

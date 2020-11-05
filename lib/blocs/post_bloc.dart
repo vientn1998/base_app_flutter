@@ -26,6 +26,32 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       yield* _mapFetchPostToState(event);
     } else if (event is FetchDetailsPost) {
       yield* _mapFetchPostDetailsToState(event);
+    } else if (event is CreatePost) {
+      yield* _mapCreatePostToState(event);
+    }
+  }
+
+  Stream<PostState> _mapCreatePostToState(CreatePost event) async*{
+    yield CreatePostLoading();
+    try {
+      final Post post = await repository.createPost(event.post);
+      print("post: ${post.toJson()}");
+      yield FetchDetailsPostSuccessfully(post: post);
+    } catch (ex){
+      print("_mapCreatePostToState ${ex.toString()}");
+      yield CreatePostError(message: ex.toString());
+    }
+  }
+
+  Stream<PostState> _mapFetchPostDetailsToState(FetchDetailsPost event) async*{
+    yield FetchDetailsPostLoading();
+    try {
+      final Post post = await repository.getPost(event.postId);
+      print("postId: ${post.id}");
+      yield FetchDetailsPostSuccessfully(post: post);
+    } catch (ex){
+      print("_mapFetchPostDetailsToState ${ex.toString()}");
+      yield FetchDetailsPostError(message: ex.toString());
     }
   }
 
@@ -45,16 +71,5 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     }
   }
 
-  Stream<PostState> _mapFetchPostDetailsToState(FetchDetailsPost event) async*{
-    yield FetchDetailsPostLoading();
-    try {
-      final Post post = await repository.getPost(event.postId);
-      print("postId: ${post.id}");
-      yield FetchDetailsPostSuccessfully(post: post);
-    } catch (ex){
-      print("_mapFetchPostDetailsToState ${ex.toString()}");
-      yield FetchDetailsPostError(message: ex.toString());
-    }
-  }
 }
 

@@ -1,4 +1,6 @@
+import 'package:base_app_flutter/app/app_localzation.dart';
 import 'package:base_app_flutter/blocs/post_bloc.dart';
+import 'package:base_app_flutter/constants/app_theme.dart';
 import 'package:base_app_flutter/data/network/api_endpoints.dart';
 import 'package:base_app_flutter/data/network/api_service.dart';
 import 'package:base_app_flutter/data/network/dio_client.dart';
@@ -22,6 +24,12 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    this.configNetwork();
+    BlocSupervisor.delegate = SimpleBlocDelegate();
+    WidgetsFlutterBinding.ensureInitialized();
+  }
+
+  configNetwork() {
     final dio = Dio();
     dio
       ..options.baseUrl = EndPoints.baseUrl
@@ -43,9 +51,6 @@ class _MyAppState extends State<MyApp> {
     DioClient dioClient = DioClient(dio);
     ApiService apiService = ApiService(dioClient);
     repository = Repository(apiService);
-
-    BlocSupervisor.delegate = SimpleBlocDelegate();
-    WidgetsFlutterBinding.ensureInitialized();
   }
 
   @override
@@ -57,6 +62,13 @@ class _MyAppState extends State<MyApp> {
         )
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: localizationsDelegates,
+        theme: themeData,
+        supportedLocales: [
+          const Locale("vi", "VN"),
+          const Locale("en", "US"),
+        ],
         home: SplashScreen(),
       ),
     );

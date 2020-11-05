@@ -9,6 +9,9 @@ class EndPoints {
   // connectTimeout
   static const int connectionTimeout = 3000;
 
-  // booking endpoints
+  // get posts
   static const String getPosts = "/posts";
+
+  // create post
+  static const String createPost = "/posts";
 }

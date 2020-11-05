@@ -11,7 +11,7 @@ class ApiService {
   //injecting dio instance
   ApiService(this._dioClient);
 
-  //return list of post in response
+  //TODO: get posts
   Future<List<Post>> getListPost() async {
     try {
       final res = await _dioClient.get(EndPoints.getPosts, queryParameters: {
@@ -26,10 +26,20 @@ class ApiService {
     }
   }
 
-  //return post in response
+  //TODO get post
   Future<Post> getPost(int postId) async {
     try {
       final res = await _dioClient.get(EndPoints.getPosts + "/$postId");
+      return BaseResponse<Post>().pareJsonPost(res, Post()).data;
+    }catch(e) {
+      throw e;
+    }
+  }
+
+  //TODO: create post
+  Future<Post> createPost(Post post) async {
+    try {
+      final res = await _dioClient.post(EndPoints.createPost, data: post.toJson());
       return BaseResponse<Post>().pareJsonPost(res, Post()).data;
     }catch(e) {
       throw e;

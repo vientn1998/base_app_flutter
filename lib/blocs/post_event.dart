@@ -12,7 +12,13 @@ class FetchDetailsPost extends PostEvent {
   int postId;
   FetchDetailsPost({this.postId});
   @override
-  // TODO: implement props
   List<Object> get props => [this.postId];
 }
 
+
+class CreatePost extends PostEvent {
+  Post post;
+  CreatePost({this.post});
+  @override
+  List<Object> get props => [this.post];
+}

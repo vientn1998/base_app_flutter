@@ -35,3 +35,17 @@ class FetchDetailsPostError extends PostState {
   @override
   List<Object> get props => [this.message];
 }
+
+class CreatePostLoading extends PostState {}
+class CreatePostSuccessfully extends PostState {
+  final Post post;
+  CreatePostSuccessfully({this.post});
+  @override
+  List<Object> get props => [this.post];
+}
+class CreatePostError extends PostState {
+  String message;
+  CreatePostError({this.message});
+  @override
+  List<Object> get props => [this.message];
+}

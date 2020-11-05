@@ -26,6 +26,20 @@ dependencies:
   flutter_bloc: ^4.0.0
   path_provider: ^1.6.24
   rxdart: ^0.24.1
+  intl: ^0.16.1
+  shared_preferences: ^0.5.7+2
+  permission_handler: ^5.0.0+hotfix.6
+  app_settings: 4.0.0
+  cached_network_image: ^2.2.0+1
+  url_launcher: ^5.5.0
+  get_it: ^4.0.2
+  keyboard_dismisser: ^1.0.2
+  keyboard_visibility: ^0.5.6
+  connectivity: ^0.4.9+5
+
+  flutter_localizations:
+    sdk: flutter
+
   flutter:
     sdk: flutter
 

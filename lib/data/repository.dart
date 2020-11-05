@@ -26,4 +26,13 @@ class Repository {
       throw error;
     });
   }
+
+  //create Post
+  Future<Post> createPost(Post post) async{
+    return await _apiService.createPost(post)
+        .then((post) => post)
+        .catchError((error) {
+      throw error;
+    });
+  }
 }
