@@ -1,4 +1,5 @@
 import 'package:base_app_flutter/data/network/api_service.dart';
+import 'package:base_app_flutter/models/post.dart';
 
 class Repository {
 
@@ -9,7 +10,7 @@ class Repository {
   Repository(this._apiService);
 
   //Get ListPost
-  Future<dynamic> getPosts() async{
+  Future<List<Post>> getPosts() async{
     return await _apiService.getListPost().then((list) {
       return list;
     }).catchError((error) {
@@ -17,4 +18,12 @@ class Repository {
     });
   }
 
+  //Get Post
+  Future<Post> getPost(int postId) async{
+    return await _apiService.getPost(postId)
+        .then((post) => post)
+        .catchError((error) {
+      throw error;
+    });
+  }
 }

@@ -22,6 +22,10 @@ environment:
 
 dependencies:
   dio: ^3.0.10
+  equatable: ^1.2.5
+  flutter_bloc: ^4.0.0
+  path_provider: ^1.6.24
+  rxdart: ^0.24.1
   flutter:
     sdk: flutter
 
