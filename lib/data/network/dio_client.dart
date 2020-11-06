@@ -34,6 +34,8 @@ class DioClient {
       if (e is DioError) {
         if (e.response.statusCode == 404) {
           throw NetworkException(statusCode: 404, message: "Http status error [404]");
+        } else {
+          throw NetworkException(statusCode: 404, message: DioErrorUtil.handleError(e));
         }
       } else {
         throw e;

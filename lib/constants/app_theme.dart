@@ -11,7 +11,7 @@ final ThemeData themeData = ThemeData(
 );
 
 final ThemeData themeDataDark = ThemeData(
-    primaryColor: Colors.red,
+    primaryColor: AppColors.primary,
     primaryColorBrightness: Brightness.dark,
     brightness: Brightness.dark,
     accentColor: Colors.red,

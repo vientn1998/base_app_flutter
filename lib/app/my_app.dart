@@ -36,10 +36,14 @@ class _MyAppState extends State<MyApp> {
       ..options.connectTimeout = EndPoints.connectionTimeout
       ..options.receiveTimeout = EndPoints.receiveTimeout
       ..interceptors.add(LogInterceptor(
-        request: true,
-        requestBody: true,
-        responseBody: true,
-        requestHeader: true,
+        request: false,
+        requestBody: false,
+        responseBody: false,
+        requestHeader: false,
+        responseHeader: false,
+      ))
+      ..interceptors.add(Interceptor(
+
       ))
       ..interceptors.add(InterceptorsWrapper(
         onRequest: (options) {

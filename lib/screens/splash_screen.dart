@@ -1,4 +1,5 @@
 import 'package:base_app_flutter/blocs/post_bloc.dart';
+import 'package:base_app_flutter/constants/colors.dart';
 import 'package:base_app_flutter/models/post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,12 +40,12 @@ class _SplashScreenState extends State<SplashScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // BlocProvider.of<PostBloc>(context).add(FetchPosts());
-          // BlocProvider.of<PostBloc>(context).add(FetchDetailsPost(postId: 2));
-          BlocProvider.of<PostBloc>(context).add(CreatePost(
-              post: Post()
-                ..userId = 1000
-                ..title = "vien title"
-                ..body = "How's it going?"));
+          BlocProvider.of<PostBloc>(context).add(FetchDetailsPost(postId: 2));
+          // BlocProvider.of<PostBloc>(context).add(CreatePost(
+          //     post: Post()
+          //       ..userId = 1000
+          //       ..title = "vien title"
+          //       ..body = "How's it going?"));
         },
         tooltip: 'Fetch',
         child: Icon(Icons.add),
