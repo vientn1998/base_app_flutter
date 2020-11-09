@@ -1,8 +1,12 @@
 import 'package:base_app_flutter/blocs/post_bloc.dart';
+import 'package:base_app_flutter/constants/app_theme.dart';
 import 'package:base_app_flutter/constants/colors.dart';
 import 'package:base_app_flutter/models/post.dart';
+import 'package:base_app_flutter/screens/login_screen.dart';
+import 'package:base_app_flutter/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -33,19 +37,20 @@ class _SplashScreenState extends State<SplashScreen> {
             } else if (state is CreatePostSuccessfully) {
               return Text("Data Create: ${state.post.toJson()}");
             }
-            return Text("Loading");
+            return Text("Loading", style: AppTheme.text16MediumTitle,);
           },
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // BlocProvider.of<PostBloc>(context).add(FetchPosts());
-          BlocProvider.of<PostBloc>(context).add(FetchDetailsPost(postId: 2));
+          //BlocProvider.of<PostBloc>(context).add(FetchDetailsPost(postId: 2));
           // BlocProvider.of<PostBloc>(context).add(CreatePost(
           //     post: Post()
           //       ..userId = 1000
           //       ..title = "vien title"
           //       ..body = "How's it going?"));
+          Get.to(LoginScreen());
         },
         tooltip: 'Fetch',
         child: Icon(Icons.add),

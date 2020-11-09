@@ -9,6 +9,7 @@ import 'package:base_app_flutter/screens/splash_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'simple_bloc_delegate.dart';
 import 'package:bloc/bloc.dart';
 
@@ -65,10 +66,10 @@ class _MyAppState extends State<MyApp> {
           create: (context) => PostBloc(repository: this.repository),
         )
       ],
-      child: MaterialApp(
+      child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         localizationsDelegates: localizationsDelegates,
-        theme: themeData,
+        theme: AppTheme.themeData,
         supportedLocales: [
           const Locale("vi", "VN"),
           const Locale("en", "US"),
