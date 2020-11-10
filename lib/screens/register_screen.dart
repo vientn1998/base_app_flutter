@@ -1,4 +1,5 @@
 import 'package:base_app_flutter/screens/splash_screen.dart';
+import 'package:base_app_flutter/utils/dialog_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,36 +18,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // _showDialog();
-          Get.generalDialog(
-            pageBuilder: (context, animation, secondaryAnimation) {
-              return AlertDialog(
-                title: new Text("Alert Dialog title"),
-                content: new Text("Alert Dialog body"),
-                actions: <Widget>[
-                  // usually buttons at the bottom of the dialog
-                  new FlatButton(
-                    child: new Text("Close"),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              );
-            },
-            transitionDuration: Duration(milliseconds: 200),
-            barrierDismissible: true,
-            barrierLabel: '',
-            barrierColor: Colors.black.withOpacity(0.5),
-            transitionBuilder: (context, animation, secondaryAnimation, child) {
-              return Transform.scale(
-                scale: animation.value,
-                child: Opacity(
-                  opacity: animation.value,
-                  child: child,
-                ),
-              );
-            },
-          );
+          // Get.generalDialog(
+          //   pageBuilder: (context, animation, secondaryAnimation) {
+          //     return AlertDialog(
+          //       title: new Text("Alert Dialog title"),
+          //       content: new Text("Alert Dialog body"),
+          //       actions: <Widget>[
+          //         // usually buttons at the bottom of the dialog
+          //         new FlatButton(
+          //           child: new Text("Close"),
+          //           onPressed: () {
+          //             Navigator.of(context).pop();
+          //           },
+          //         ),
+          //       ],
+          //     );
+          //   },
+          //   transitionDuration: Duration(milliseconds: 200),
+          //   barrierDismissible: true,
+          //   barrierLabel: '',
+          //   barrierColor: Colors.black.withOpacity(0.5),
+          //   transitionBuilder: (context, animation, secondaryAnimation, child) {
+          //     return Transform.scale(
+          //       scale: animation.value,
+          //       child: Opacity(
+          //         opacity: animation.value,
+          //         child: child,
+          //       ),
+          //     );
+          //   },
+          // );
+          DialogUtils.showCustomDialog(title: "BaseApp", message: "This is base project", onPressedYes: () {
+            Get.back();
+          });
         },
         tooltip: 'Fetch',
         child: Icon(Icons.add),

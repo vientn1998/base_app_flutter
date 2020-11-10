@@ -30,6 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Get.back();
+          Get.back();
         },
         tooltip: 'Fetch',
         child: Icon(Icons.add),

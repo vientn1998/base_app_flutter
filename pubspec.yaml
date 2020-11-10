@@ -37,6 +37,7 @@ dependencies:
   keyboard_visibility: ^0.5.6
   connectivity: ^0.4.9+5
   get: ^3.15.0
+  fluttertoast: ^7.1.1
 
   flutter_localizations:
     sdk: flutter
