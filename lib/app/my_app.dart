@@ -3,13 +3,13 @@ import 'dart:io';
 
 import 'package:app_settings/app_settings.dart';
 import 'package:base_app_flutter/app/app_localzation.dart';
-import 'package:base_app_flutter/blocs/post_bloc.dart';
 import 'package:base_app_flutter/constants/app_theme.dart';
 import 'package:base_app_flutter/data/network/api_endpoints.dart';
 import 'package:base_app_flutter/data/network/api_service.dart';
 import 'package:base_app_flutter/data/network/dio_client.dart';
 import 'package:base_app_flutter/data/repository.dart';
-import 'package:base_app_flutter/screens/splash_screen.dart';
+import 'package:base_app_flutter/provider/login_provider.dart';
+import 'package:base_app_flutter/screens/login_screen.dart';
 import 'package:base_app_flutter/utils/dialog_utils.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'simple_bloc_delegate.dart';
 import 'package:bloc/bloc.dart';
 
@@ -25,8 +26,7 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
-
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   Repository repository;
   bool isConnected = true;
   final Connectivity _connectivity = Connectivity();
@@ -97,16 +97,13 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
         requestHeader: false,
         responseHeader: false,
       ))
-      ..interceptors.add(Interceptor(
-
-      ))
+      ..interceptors.add(Interceptor())
       ..interceptors.add(InterceptorsWrapper(
         onRequest: (options) {
           //getting token
           options.headers.putIfAbsent("Authorization", () => "token");
         },
-      ))
-    ;
+      ));
     DioClient dioClient = DioClient(dio);
     ApiService apiService = ApiService(dioClient);
     repository = Repository(apiService);
@@ -115,22 +112,39 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    try{
+    try {
       streamController.cancel();
-    } catch(ex) {
+    } catch (ex) {
       print("ex: ${ex.toString()}");
-    } finally{
+    } finally {
       super.dispose();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    // return MultiBlocProvider(
+    //   providers: [
+    //     BlocProvider<PostBloc>(
+    //       create: (context) => PostBloc(repository: this.repository),
+    //     )
+    //   ],
+    //   child: GetMaterialApp(
+    //     debugShowCheckedModeBanner: false,
+    //     localizationsDelegates: localizationsDelegates,
+    //     theme: AppTheme.themeData,
+    //     supportedLocales: [
+    //       const Locale("vi", "VN"),
+    //       const Locale("en", "US"),
+    //     ],
+    //     home: SplashScreen(),
+    //   ),
+    // );
+    return MultiProvider(
       providers: [
-        BlocProvider<PostBloc>(
-          create: (context) => PostBloc(repository: this.repository),
-        )
+        ChangeNotifierProvider(
+          create: (context) => LoginProvider(),
+        ),
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
@@ -140,12 +154,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
           const Locale("vi", "VN"),
           const Locale("en", "US"),
         ],
-        home: SplashScreen(),
+        home: LoginScreen(),
       ),
     );
   }
 
-  showDialogNoInternet() async{
+  showDialogNoInternet() async {
     return Get.generalDialog(
       pageBuilder: (context, animation, secondaryAnimation) {
         return WillPopScope(
@@ -193,7 +207,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
     );
   }
 
-  Future<bool> checkConnectivity() async{
+  Future<bool> checkConnectivity() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.mobile) {
       // I am connected to a mobile network.

@@ -1,6 +1,7 @@
 import 'package:base_app_flutter/constants/app_theme.dart';
 import 'package:base_app_flutter/screens/register_screen.dart';
-import 'package:base_app_flutter/utils/string_utils.dart';
+import 'package:provider/provider.dart';
+import '../app/import_file_global.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,30 +11,60 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Login", style: AppTheme.text16MediumTitle,),
+        title: Text(
+          "Login",
+          style: AppTheme.text16MediumTitle,
+        ),
         actions: [
-          IconButton(icon: Icon(Icons.add), onPressed: () {
-            Get.to(LoginScreen());
-          })
+          IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                Get.to(RegisterScreen());
+              })
         ],
       ),
       body: Center(
-        child: AspectRatio(
-          aspectRatio: 1/1,
-          child: Image.asset(StringUtils.getUrlAssets("ic_sms"), height: 200, width: 200,),
+        child: Consumer<LoginProvider>(
+          builder: (context, provider, child) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Enter the email',
+                  ),
+                ),
+                provider.isValidEmail ? Container() : Text("Invalid Email"),
+                sizedBoxHeight(10),
+                TextField(
+                  controller: passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'Enter the password',
+                  ),
+                ),
+                provider.isValidPassword
+                    ? Container()
+                    : Text("Invalid Password"),
+              ],
+            );
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.back();
-          Get.back();
+          Provider.of<LoginProvider>(context, listen: false)
+              .login(emailController.text, passwordController.text);
         },
         tooltip: 'Fetch',
-        child: Icon(Icons.add),
+        child: Icon(Icons.check),
       ),
     );
   }

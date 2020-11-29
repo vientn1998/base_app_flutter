@@ -2,14 +2,21 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 
-class NetworkException implements Exception{
+class NetworkException implements Exception {
   String message;
   int statusCode;
   NetworkException({this.message, this.statusCode});
 }
 
+class ServiceException implements Exception {
+  String message;
+  int statusCode;
+  ServiceException({this.message, this.statusCode});
+}
+
 class AuthException extends NetworkException {
-  AuthException({message, status}): super(message: message, statusCode: status);
+  AuthException({message, status})
+      : super(message: message, statusCode: status);
 }
 
 class DioErrorUtil {
@@ -25,14 +32,14 @@ class DioErrorUtil {
           break;
         case DioErrorType.DEFAULT:
           errorDescription =
-          "Connection to API server failed due to internet connection";
+              "Connection to API server failed due to internet connection";
           break;
         case DioErrorType.RECEIVE_TIMEOUT:
           errorDescription = "Receive timeout in connection with API server";
           break;
         case DioErrorType.RESPONSE:
           errorDescription =
-          "Received invalid status code: ${error.response.statusCode}";
+              "Received invalid status code: ${error.response.statusCode}";
           break;
         case DioErrorType.SEND_TIMEOUT:
           errorDescription = "Send timeout in connection with API server";
