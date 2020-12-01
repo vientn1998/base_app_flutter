@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:base_app_flutter/app/import_file_global.dart';
 import 'package:base_app_flutter/data/network/api_endpoints.dart';
 import 'package:base_app_flutter/data/network/api_exceptions.dart';
 import 'package:dio/dio.dart';
@@ -12,10 +15,10 @@ class BaseApi {
       ..options.receiveTimeout = EndPoints.receiveTimeout
       ..options.responseType = ResponseType.json
       ..interceptors.add(LogInterceptor(
-        request: false,
-        requestBody: false,
-        responseBody: false,
-        requestHeader: false,
+        request: true,
+        requestBody: true,
+        responseBody: true,
+        requestHeader: true,
         responseHeader: false,
       ))
       ..interceptors.add(Interceptor())
@@ -31,20 +34,13 @@ class BaseApi {
   Future<dynamic> get(String uri,
       {Map<String, dynamic> queryParameters,
       bool useToken = true,
-      Options options,
       ProgressCallback onReceiverProgress}) async {
-    var _headers = Map<String, dynamic>();
-    _headers['Accept'] = "application/json";
-    _headers['Authorization'] = "token";
-    if (useToken) {
-      options..headers = _headers;
-    }
     try {
       final Response response = await _dio.get(EndPoints.baseUrl + uri,
           queryParameters: queryParameters,
-          options: options,
+          options: Options(headers: getHeader(useToken: true)),
           onReceiveProgress: onReceiverProgress);
-      return response.data;
+      return response;
     } catch (e) {
       print("error get: $e");
       if (e is DioError) {
@@ -62,29 +58,23 @@ class BaseApi {
   }
 
   //Post
-  Future<dynamic> post(String uri,
-      {data,
+  Future<dynamic> post(
+      {String uri,
+      data,
       Map<String, dynamic> queryParameters,
       Options options,
       bool useToken = true,
       ProgressCallback onSendProgress,
       ProgressCallback onReceiveProgress}) async {
-    var _headers = Map<String, dynamic>();
-    _headers['Accept'] = "application/json";
-    _headers['Authorization'] = "token";
-    if (useToken) {
-      options..headers = _headers;
-    }
     try {
-      final Response response = await _dio.post(EndPoints.baseUrl + uri,
+      final Response response = await _dio.post(uri,
           data: data,
           queryParameters: queryParameters,
-          options: options,
+          options: Options(headers: getHeader(useToken: false)),
           onSendProgress: onSendProgress,
           onReceiveProgress: onReceiveProgress);
-      return response.data;
+      return response;
     } catch (e) {
-      print("error get: $e");
       if (e is DioError) {
         if (e.response.statusCode == 404) {
           throw ServiceException(
@@ -94,5 +84,14 @@ class BaseApi {
         throw e;
       }
     }
+  }
+
+  Map<String, String> getHeader({bool useToken = true}) {
+    return useToken
+        ? {
+            HttpHeaders.contentTypeHeader: "application/json",
+            "Authorization": "Bearer $token"
+          }
+        : {HttpHeaders.contentTypeHeader: "application/json"};
   }
 }

@@ -66,22 +66,22 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     if (!isConnected) {
       showDialogNoInternet();
     }
-    streamController = _connectivity.onConnectivityChanged.listen((event) {
-      countBack = 0;
-      if (isConnected) {
-        if (event == ConnectivityResult.none) {
-          print("listen: $event");
-          isConnected = false;
-          showDialogNoInternet();
-        }
-      } else {
-        if (event != ConnectivityResult.none) {
-          print("listen: $event");
-          isConnected = true;
-          Get.back();
-        }
-      }
-    });
+    // streamController = _connectivity.onConnectivityChanged.listen((event) {
+    //   countBack = 0;
+    //   if (isConnected) {
+    //     if (event == ConnectivityResult.none) {
+    //       print("listen: $event");
+    //       isConnected = false;
+    //       showDialogNoInternet();
+    //     }
+    //   } else {
+    //     if (event != ConnectivityResult.none) {
+    //       print("listen: $event");
+    //       isConnected = true;
+    //       Get.back();
+    //     }
+    //   }
+    // });
   }
 
   configAPIService() {

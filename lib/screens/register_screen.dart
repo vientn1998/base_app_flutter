@@ -1,4 +1,3 @@
-import 'package:base_app_flutter/screens/splash_screen.dart';
 import 'package:base_app_flutter/utils/dialog_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -48,9 +47,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
           //     );
           //   },
           // );
-          DialogUtils.showCustomDialog(title: "BaseApp", message: "This is base project", onPressedYes: () {
-            Get.back();
-          });
+          DialogUtils.showCustomDialog(
+              title: "BaseApp",
+              message: "This is base project",
+              onPressedYes: () {
+                Get.back();
+              });
         },
         tooltip: 'Fetch',
         child: Icon(Icons.add),

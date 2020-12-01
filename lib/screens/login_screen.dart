@@ -15,6 +15,7 @@ class _LoginScreenState extends State<LoginScreen> {
   var passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    print("build login");
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -25,13 +26,15 @@ class _LoginScreenState extends State<LoginScreen> {
           IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
-                Get.to(RegisterScreen());
+                Provider.of<LoginProvider>(context, listen: false)
+                    .getUserDetails();
               })
         ],
       ),
       body: Center(
         child: Consumer<LoginProvider>(
           builder: (context, provider, child) {
+            print("data: ${provider.userRespo}");
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

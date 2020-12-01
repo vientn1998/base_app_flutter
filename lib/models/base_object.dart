@@ -5,14 +5,14 @@ abstract class BaseObject<T> {
 }
 
 class BaseResponse<T> {
-
-  int status;
+  bool status;
   String message;
   T data;
 
   BaseResponse({this.status, this.message, this.data});
 
   BaseResponse pareJson(dynamic json, BaseObject target) {
+    print("data $json");
     return BaseResponse(
       status: json["status"],
       message: json["message"],
@@ -26,11 +26,9 @@ class BaseResponse<T> {
       data: target.fromJson(data),
     );
   }
-
 }
 
 class BaseListResponse<T> {
-
   int status;
   String message;
   List<T> data;
